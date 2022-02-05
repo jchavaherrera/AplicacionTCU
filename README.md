@@ -1,16 +1,9 @@
-# course_app
+# Lector QR
 
-A new Flutter project.
+Funcionalidad de lectura de códigos QR y *text to speech* de la información leída correspondiente al código QR
 
-## Getting Started
+## Demo de funcionalidad
 
-This project is a starting point for a Flutter application.
+En el siguiente enlace se muestra una pequeña demostración de la funcionalidad de este módulo lector
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[Demostración](https://youtu.be/hi_WjcP315o)
