@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(aplicacion_tcu LANGUAGES CXX)
+project(course_app LANGUAGES CXX)
 
-set(BINARY_NAME "aplicacion_tcu")
+set(BINARY_NAME "course_app")
 
 cmake_policy(SET CMP0063 NEW)
 

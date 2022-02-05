@@ -1,4 +1,4 @@
-# aplicacion_tcu
+# course_app
 
 A new Flutter project.
 
