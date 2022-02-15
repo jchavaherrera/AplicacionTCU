@@ -16,10 +16,11 @@ class LoginPage extends StatelessWidget {
             bool isAuthenticated =
                 await Authentication.authenticateWithBiometrics();
 
-            if (isAuthenticated) {
+            if (true) {
+              //isAuthenticated) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => HomeScreen(),
+                  builder: (context) => FlutterDemo(storage: CounterStorage()),
                 ),
               );
             }
