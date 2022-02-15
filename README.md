@@ -1,9 +1,15 @@
-# Lector QR
+# Funcionalidades implementadas
+
+## Lector QR
 
 Funcionalidad de lectura de códigos QR y *text to speech* de la información leída correspondiente al código QR
 
-## Demo de funcionalidad
+## Navegación Entre Pantallas
 
-En el siguiente enlace se muestra una pequeña demostración de la funcionalidad de este módulo lector
+Para la navegación entre pantallas se implementó la funcionalidad de deslizar entre las diferentes páginas de la aplicación, por ahora se trata de pantallas de prueba, sin ninguna funcionalidad.
 
-[Demostración](https://youtu.be/hi_WjcP315o)
+### Demo de funcionalidad
+
+En el siguiente enlace se muestra una pequeña demostración de la funcionalidad de navegación entre pantallas y la lectura del código QR.
+
+[Demostración](https://youtu.be/5-OxF6SL3w0)
