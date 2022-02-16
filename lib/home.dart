@@ -37,6 +37,11 @@ class CounterStorage {
     // Write the file
     return file.writeAsString('$counter');
   }
+
+  Future<List<String>> movimientos() async {
+    var list = ["one", "two", "three", "four"];
+    return list;
+  }
 }
 
 class FlutterDemo extends StatefulWidget {
@@ -50,6 +55,8 @@ class FlutterDemo extends StatefulWidget {
 
 class _FlutterDemoState extends State<FlutterDemo> {
   int _counter = 0;
+  late List<String> lista;
+  int _size = 0;
 
   @override
   void initState() {
@@ -57,6 +64,12 @@ class _FlutterDemoState extends State<FlutterDemo> {
     widget.storage.readCounter().then((int value) {
       setState(() {
         _counter = value;
+      });
+    });
+    widget.storage.movimientos().then((value) {
+      setState(() {
+        lista = value;
+        lista.length;
       });
     });
   }
@@ -72,14 +85,18 @@ class _FlutterDemoState extends State<FlutterDemo> {
 
   @override
   Widget build(BuildContext context) {
+    if (lista == null) {
+      throw 0;
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reading and Writing Files'),
       ),
-      body: Center(
-        child: Text(
+      body: Column(
+        children: <Widget>[for (var item in lista) Text(item)],
+        /*child: Text(
           'Button tapped $_counter time${_counter == 1 ? '' : 's'}.',
-        ),
+        ),*/
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
