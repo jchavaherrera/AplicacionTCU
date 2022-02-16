@@ -30,17 +30,17 @@ class PageViews extends StatefulWidget {
 }
 
 class _PageViewsState extends State<PageViews> {
-  PageController _controller = PageController(
+  final PageController _controller = PageController(
     initialPage: 0,
   );
 
   @override
-  void dispose(){
+  void dispose() {
     _controller.dispose();
     super.dispose();
   }
 
-    @override
+  @override
   Widget build(BuildContext context) {
     return PageView(
       controller: _controller,
@@ -48,6 +48,7 @@ class _PageViewsState extends State<PageViews> {
         Page1(),
         Page2(),
         Page3(),
+        ItemListPage(),
         ScanQRPage(),
       ],
     );
@@ -61,19 +62,81 @@ class ScanQRPage extends StatefulWidget {
   }
 }
 
+class ItemListPage extends StatefulWidget {
+  @override
+  State createState() => DynamicList();
+}
+
+class DynamicList extends State<ItemListPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Carrito"),
+      ),
+      body: ListView.builder(
+        itemCount: listaCompras.length,
+        itemBuilder: (BuildContext ctxt, int index) {
+          return Text(listaCompras[index]);
+        },
+      ),
+    );
+  }
+}
+
 class ScanQRPageState extends State<ScanQRPage> {
   String result = "Escáner QR";
+  String product = " ";
+  int price = 0;
+  String priceStr = " ";
+  String currency = " ";
   final FlutterTts tts = FlutterTts();
+
+  // FUNCIONES ON PRESSED (_)
+  Future _addToCart(String item) async {
+    tts.setLanguage("es-US");
+    tts.setSpeechRate(0.4);
+    listaCompras.add(item);
+    Navigator.pop(context, 'OK');
+    tts.speak("producto agregado al carrito");
+  }
+
+  Future _discardProduct() async {
+    tts.setLanguage("es-US");
+    tts.setSpeechRate(0.4);
+    Navigator.pop(context, 'Cancel');
+    tts.speak("Producto descartado");
+  }
 
   Future _scanQR() async {
     tts.setLanguage("es-US");
     tts.setSpeechRate(0.4);
-
     try {
       var qrResult = await BarcodeScanner.scan();
       setState(() {
         result = qrResult.rawContent;
-        tts.speak(result);
+        product = getProduct(result);
+        price = getPrice(result);
+        priceStr = price.toString();
+        currency = getCurrency(result);
+        tts.speak("Producto escaneado:" + product + ". Precio: " + priceStr + " " + currency);
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: Text(product),
+            content: Text('Precio: ' + priceStr + " " + currency),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => _discardProduct(),
+                child: const Text('Descartar'),
+              ),
+              TextButton(
+                onPressed: () => _addToCart(product),
+                child: const Text('Agregar al carrito'),
+              ),
+            ],
+          ),
+        );
       });
     } on PlatformException catch (ex) {
       if (ex.code == BarcodeScanner.cameraAccessDenied) {
@@ -102,10 +165,10 @@ class ScanQRPageState extends State<ScanQRPage> {
       appBar: AppBar(
         title: const Text("Escáner QR"),
       ),
-      body: Center(
+      body: const Center(
         child: Text(
-          result,
-          style: const TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+          "Escáner QR",
+          style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -117,11 +180,6 @@ class ScanQRPageState extends State<ScanQRPage> {
     );
   }
 }
-
-
-
-
-
 
 //COLORES
 const lightBlue = Color(0xff00bbff);
@@ -136,7 +194,7 @@ final lightRed = Colors.red.shade300;
 final mediumRed = Colors.red.shade600;
 final darkRed = Colors.red.shade900;
 
-
+List<String> listaCompras = [];
 
 //Elementos de relleno (placeholders)
 class MyBox extends StatelessWidget {
@@ -156,14 +214,14 @@ class MyBox extends StatelessWidget {
         child: (text == null)
             ? null
             : Center(
-          child: Text(
-            text,
-            style: const TextStyle(
-              fontSize: 50,
-              color: Colors.white,
-            ),
-          ),
-        ),
+                child: Text(
+                  text,
+                  style: const TextStyle(
+                    fontSize: 50,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
       ),
     );
   }
@@ -205,20 +263,20 @@ class Page2 extends StatelessWidget {
     return Column(
       children: <Widget>[
         Row(
-          children: [
+          children: const [
             MyBox(darkBlue, height: 50),
             MyBox(darkBlue, height: 50),
           ],
         ),
         Row(
-          children: [
+          children: const [
             MyBox(lightBlue),
             MyBox(lightBlue),
           ],
         ),
-        MyBox(mediumBlue, text: 'Página 2'),
+        const MyBox(mediumBlue, text: 'Página 2'),
         Row(
-          children: [
+          children: const[
             MyBox(lightBlue),
             MyBox(lightBlue),
           ],
@@ -250,4 +308,34 @@ class Page3 extends StatelessWidget {
       ],
     );
   }
+}
+
+
+// FUNCIONES DE AYUDA PARA SIMPLIFICAR EL ORDEN
+
+String getProduct (String qrData) {
+  const start = 'Producto:"';
+  const end = '"';
+  final startIndex = qrData.indexOf(start);
+  final endIndex = qrData.indexOf(end, startIndex + start.length);
+
+  return qrData.substring(startIndex + start.length, endIndex);
+}
+
+int getPrice (String qrData) {
+  const start = 'Precio:"';
+  const end = '"';
+  final startIndex = qrData.indexOf(start);
+  final endIndex = qrData.indexOf(end, startIndex + start.length);
+
+  return int.parse(qrData.substring(startIndex + start.length, endIndex));
+}
+
+String getCurrency (String qrData) {
+  const start = 'Moneda:"';
+  const end = '"';
+  final startIndex = qrData.indexOf(start);
+  final endIndex = qrData.indexOf(end, startIndex + start.length);
+
+  return qrData.substring(startIndex + start.length, endIndex);
 }
