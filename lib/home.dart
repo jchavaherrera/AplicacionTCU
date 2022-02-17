@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'addmovement.dart';
 
 class CounterStorage {
   Future<String> get _localPath async {
@@ -15,6 +16,11 @@ class CounterStorage {
   Future<File> get _localFile async {
     final path = await _localPath;
     return File('$path/counter.txt');
+  }
+
+  Future<File> get _localMovementsFile async {
+    final path = await _localPath;
+    return File('$path/movements.txt');
   }
 
   Future<int> readCounter() async {
@@ -38,9 +44,28 @@ class CounterStorage {
     return file.writeAsString('$counter');
   }
 
-  Future<List<String>> movimientos() async {
-    var list = ["one", "two", "three", "four"];
-    return list;
+  Future<List<String>> readMovimientos() async {
+    try {
+      final file = await _localMovementsFile;
+
+      // Read the file
+      String contents = await file.readAsString();
+      var movements = contents.split('\n');
+
+      return movements;
+    } catch (e) {
+      // If encountering an error, return 0
+      return <String>[];
+    }
+  }
+
+  Future<File> writeMovements(List<String> movimientos) async {
+    final file = await _localMovementsFile;
+
+    return file.writeAsString(movimientos.toString());
+
+    // Write the file
+    //return file.writeAsString(movimientos.toString());
   }
 }
 
@@ -56,7 +81,6 @@ class FlutterDemo extends StatefulWidget {
 class _FlutterDemoState extends State<FlutterDemo> {
   int _counter = 0;
   late List<String> lista;
-  int _size = 0;
 
   @override
   void initState() {
@@ -66,7 +90,7 @@ class _FlutterDemoState extends State<FlutterDemo> {
         _counter = value;
       });
     });
-    widget.storage.movimientos().then((value) {
+    widget.storage.readMovimientos().then((value) {
       setState(() {
         lista = value;
         lista.length;
@@ -74,20 +98,22 @@ class _FlutterDemoState extends State<FlutterDemo> {
     });
   }
 
-  Future<File> _incrementCounter() {
+  void _incrementCounter() {
+    //Future<File> _incrementCounter() {
     setState(() {
       _counter++;
     });
-
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => AddMovement(),
+      ),
+    );
     // Write the variable as a string to the file.
-    return widget.storage.writeCounter(_counter);
+    //return widget.storage.writeMovements(lista);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (lista == null) {
-      throw 0;
-    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reading and Writing Files'),
