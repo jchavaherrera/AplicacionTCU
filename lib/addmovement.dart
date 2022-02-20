@@ -1,58 +1,12 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+import 'storage.dart';
 
 import 'home.dart';
 
-class CounterStorage {
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
+class AddMovement extends StatefulWidget {
+  const AddMovement({Key? key, required this.storage}) : super(key: key);
 
-    return directory.path;
-  }
-
-  Future<File> get _localMovementsFile async {
-    final path = await _localPath;
-    return File('$path/movements.txt');
-  }
-
-  Future<File> writeMovements(String movimientos) async {
-    final file = await _localMovementsFile;
-
-    return file.writeAsString(movimientos, mode: FileMode.append);
-    // Write the file
-    //return file.writeAsString(movimientos.toString());
-  }
-
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/counter.txt');
-  }
-
-  Future<File> writeCounter(int counter) async {
-    final file = await _localFile;
-
-    // Write the file
-    return file.writeAsString('$counter');
-  }
-}
-
-class AddMovement extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Agregar movimiento',
-      home: CustomForm(storage: CounterStorage()),
-    );
-  }
-}
-
-class CustomForm extends StatefulWidget {
-  const CustomForm({Key? key, required this.storage}) : super(key: key);
-
-  final CounterStorage storage;
+  final Storage storage;
 
   @override
   _MyCustomFormState createState() => _MyCustomFormState();
@@ -60,7 +14,7 @@ class CustomForm extends StatefulWidget {
 
 // Define a corresponding State class.
 // This class holds the data related to the Form.
-class _MyCustomFormState extends State<CustomForm> {
+class _MyCustomFormState extends State<AddMovement> {
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
   final textController = TextEditingController();
@@ -90,26 +44,29 @@ class _MyCustomFormState extends State<CustomForm> {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: TextField(
-            controller: textController,
+            controller: amountController,
           ),
         ),
         const Text('Detalle de la transacción'),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: TextField(
-            controller: amountController,
+            controller: textController,
           ),
         ),
       ]),
       floatingActionButton: FloatingActionButton(
-        // When the user presses the button, show an alert dialog containing
-        // the text that the user has entered into the text field.
         onPressed: () {
           widget.storage.writeCounter(int.parse(amountController.text));
-          widget.storage.writeMovements(textController.text);
-          Navigator.pop(context);
+          widget.storage
+              .writeMovements(textController.text, amountController.text);
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const Home(),
+            ),
+          );
         },
-        tooltip: 'Show me the value!',
+        tooltip: 'Agregar movimiento',
         child: const Icon(Icons.text_fields),
       ),
     );

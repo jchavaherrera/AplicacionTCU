@@ -1,78 +1,24 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'addmovement.dart';
+import 'storage.dart';
 
-class CounterStorage {
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
 
-    return directory.path;
-  }
-
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/counter.txt');
-  }
-
-  Future<File> get _localMovementsFile async {
-    final path = await _localPath;
-    return File('$path/movements.txt');
-  }
-
-  Future<int> readCounter() async {
-    try {
-      final file = await _localFile;
-
-      // Read the file
-      final contents = await file.readAsString();
-
-      return int.parse(contents);
-    } catch (e) {
-      // If encountering an error, return 0
-      return 0;
-    }
-  }
-
-  Future<File> writeCounter(int counter) async {
-    final file = await _localFile;
-
-    // Write the file
-    return file.writeAsString('$counter');
-  }
-
-  Future<List<String>> readMovimientos() async {
-    try {
-      final file = await _localMovementsFile;
-
-      // Read the file
-      String contents = await file.readAsString();
-      var movements = contents.split('\n');
-
-      return movements;
-    } catch (e) {
-      // If encountering an error, return 0
-      return <String>[];
-    }
-  }
-
-  Future<File> writeMovements(List<String> movimientos) async {
-    final file = await _localMovementsFile;
-
-    return file.writeAsString(movimientos.toString());
-
-    // Write the file
-    //return file.writeAsString(movimientos.toString());
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Home',
+      home: FlutterDemo(storage: Storage()),
+    );
   }
 }
 
 class FlutterDemo extends StatefulWidget {
   const FlutterDemo({Key? key, required this.storage}) : super(key: key);
 
-  final CounterStorage storage;
+  final Storage storage;
 
   @override
   _FlutterDemoState createState() => _FlutterDemoState();
@@ -99,17 +45,21 @@ class _FlutterDemoState extends State<FlutterDemo> {
   }
 
   void _incrementCounter() {
-    //Future<File> _incrementCounter() {
     setState(() {
       _counter++;
     });
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => AddMovement(),
+        builder: (context) => AddMovement(storage: Storage()),
       ),
     );
-    // Write the variable as a string to the file.
-    //return widget.storage.writeMovements(lista);
+  }
+
+  Widget movimientos(String movimiento) {
+    List<Widget> list = <Widget>[];
+    final temp = movimiento.split('\t');
+    [for (var item in temp) list.add(Text(item))];
+    return Column(children: list);
   }
 
   @override
@@ -119,10 +69,7 @@ class _FlutterDemoState extends State<FlutterDemo> {
         title: const Text('Reading and Writing Files'),
       ),
       body: Column(
-        children: <Widget>[for (var item in lista) Text(item)],
-        /*child: Text(
-          'Button tapped $_counter time${_counter == 1 ? '' : 's'}.',
-        ),*/
+        children: <Widget>[for (var item in lista) movimientos(item)],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,

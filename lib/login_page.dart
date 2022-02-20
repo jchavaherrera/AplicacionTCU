@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:aplicacion_tcu/home.dart';
 import 'package:local_auth/local_auth.dart';
+import 'storage.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -20,14 +21,10 @@ class LoginPage extends StatelessWidget {
               //isAuthenticated) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => FlutterDemo(storage: CounterStorage()),
+                  builder: (context) => const Home(),
                 ),
               );
             }
-
-            ///Navigator.push(context, MaterialPageRoute(builder: (context) {
-            ///  return HomeScreen();
-            ///}));
           },
         ),
       ),
