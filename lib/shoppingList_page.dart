@@ -1,4 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:aplicacion_tcu/helper-functions/qr_functions.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class Todo {
   Todo({required this.name, required this.checked, required this.price});
@@ -55,6 +60,84 @@ class _TodoListState extends State<TodoList> {
   final TextEditingController _textFieldController = TextEditingController();
   final TextEditingController _textFieldController2 = TextEditingController();
   final List<Todo> _todos = <Todo>[];
+
+  String result = " ";
+  String product = " ";
+  int price = 0;
+  String priceStr = " ";
+  String currency = " ";
+  final FlutterTts tts = FlutterTts();
+
+  Future _addToCart(String item) async {
+    tts.setLanguage("es-US");
+    tts.setSpeechRate(0.4);
+    Navigator.pop(context, 'OK');
+    _addTodoItem(product, priceStr);
+    tts.speak("producto agregado al carrito");
+  }
+
+  Future _discardProduct() async {
+    tts.setLanguage("es-US");
+    tts.setSpeechRate(0.4);
+    Navigator.pop(context, 'Cancel');
+    tts.speak("Producto descartado");
+  }
+
+  Future _scanQR() async {
+    tts.setLanguage("es-US");
+    tts.setSpeechRate(0.4);
+    try {
+      var qrResult = await BarcodeScanner.scan();
+      setState(() {
+        result = qrResult.rawContent;
+        product = getProduct(result);
+        price = getPrice(result);
+        priceStr = price.toString();
+        currency = getCurrency(result);
+        tts.speak("Producto escaneado:" +
+            product +
+            ". Precio: " +
+            priceStr +
+            " " +
+            currency);
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: Text(product),
+            content: Text('Precio: ' + priceStr + " " + currency),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => _discardProduct(),
+                child: const Text('Descartar'),
+              ),
+              TextButton(
+                onPressed: () => _addToCart(product),
+                child: const Text('Agregar al carrito'),
+              ),
+            ],
+          ),
+        );
+      });
+    } on PlatformException catch (ex) {
+      if (ex.code == BarcodeScanner.cameraAccessDenied) {
+        setState(() {
+          result = "Permisos a la cámara denegados";
+        });
+      } else {
+        setState(() {
+          result = "Error desconocido: $ex";
+        });
+      }
+    } on FormatException {
+      setState(() {
+        result = "Nada fue escaneado";
+      });
+    } catch (ex) {
+      setState(() {
+        result = "Error desconocido: $ex";
+      });
+    }
+  }
 
   void _addTodoItem(String name, String price) {
     setState(() {
@@ -151,10 +234,26 @@ class _TodoListState extends State<TodoList> {
               ]),
             );
           }),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => _displayDialog(),
-          tooltip: 'Add Item',
-          child: Icon(Icons.add)),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton.extended(
+            icon: const Icon(Icons.add),
+            onPressed: () => _displayDialog(),
+            label: const Text('Agregar Producto'),
+            heroTag: null,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton.extended(
+            icon: const Icon(Icons.camera_alt),
+            label: const Text("Escanear Código"),
+            onPressed: _scanQR,
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

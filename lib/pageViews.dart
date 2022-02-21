@@ -22,7 +22,9 @@ class _PageViewsState extends State<PageViews> {
     return PageView(
       controller: _controller,
       children: [
-        TodoList(),
+        TodoList(), //lista de compras
+
+
       ],
     );
   }
