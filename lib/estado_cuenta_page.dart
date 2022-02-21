@@ -9,12 +9,8 @@ class EstadoCuenta extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Aplicación financiera TCU-748',
-      theme:
-          ThemeData(brightness: Brightness.dark, primaryColor: Colors.blueGrey),
-      home: FlutterDemo(storage: Storage()),
-    );
+    return FlutterDemo(storage: Storage());
+    
   }
 }
 

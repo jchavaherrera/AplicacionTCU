@@ -9,8 +9,11 @@ class MyApp extends StatelessWidget {
   const MyApp({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: LoginPage(),
+    return MaterialApp(
+      title: 'Aplicación financiera TCU-748',
+      theme:
+          ThemeData(brightness: Brightness.dark, primaryColor: Colors.blueGrey),
+      home: const LoginPage(),
     );
   }
 }

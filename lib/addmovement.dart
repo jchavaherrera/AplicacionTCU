@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'storage.dart';
 
-import 'estadoCuenta_page.dart';
+import 'estado_cuenta_page.dart';
 
 class AddMovement extends StatefulWidget {
   const AddMovement({Key? key, required this.storage}) : super(key: key);
