@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'pageViews.dart';
 import 'package:flutter/material.dart';
 import 'package:aplicacion_tcu/home.dart';
 import 'package:local_auth/local_auth.dart';
@@ -10,8 +10,8 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       //appBar: AppBar(),
       body: Center(
-        child: FlatButton(
-          child: Text('Ingresar'),
+        child: TextButton(
+          child: const Text('Ingresar'),
           onPressed: () async {
             bool isAuthenticated =
                 await Authentication.authenticateWithBiometrics();
@@ -19,7 +19,7 @@ class LoginPage extends StatelessWidget {
             if (isAuthenticated) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => HomeScreen(),
+                  builder: (context) => PageViews(),
                 ),
               );
             }
