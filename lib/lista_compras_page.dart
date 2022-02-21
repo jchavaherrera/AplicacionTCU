@@ -13,11 +13,11 @@ class Todo {
 }
 
 // Define a custom Form widget.
-class TodoList extends StatefulWidget {
-  const TodoList({Key? key}) : super(key: key);
+class ListaCompras extends StatefulWidget {
+  const ListaCompras({Key? key}) : super(key: key);
 
   @override
-  _TodoListState createState() => _TodoListState();
+  _ListaComprasState createState() => _ListaComprasState();
 }
 
 class TodoItem extends StatelessWidget {
@@ -32,7 +32,7 @@ class TodoItem extends StatelessWidget {
   TextStyle? _getTextStyle(bool checked) {
     if (!checked) return null;
 
-    return TextStyle(
+    return const TextStyle(
       color: Colors.black54,
       decoration: TextDecoration.lineThrough,
     );
@@ -54,7 +54,7 @@ class TodoItem extends StatelessWidget {
 
 // Define a corresponding State class.
 // This class holds the data related to the Form.
-class _TodoListState extends State<TodoList> {
+class _ListaComprasState extends State<ListaCompras> {
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
   final TextEditingController _textFieldController = TextEditingController();
@@ -156,7 +156,7 @@ class _TodoListState extends State<TodoList> {
   TextStyle? _getTextStyle(bool checked) {
     if (!checked) return null;
 
-    return TextStyle(
+    return const TextStyle(
       color: Colors.black54,
       decoration: TextDecoration.lineThrough,
     );

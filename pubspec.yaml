@@ -37,6 +37,7 @@ dependencies:
   local_auth: ^1.1.10
   barcode_scan: any
   flutter_tts: any
+  path_provider: ^2.0.9
 
 dev_dependencies:
   flutter_test:

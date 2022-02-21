@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'shoppingList_page.dart';
+import 'lista_compras_page.dart';
+import 'estado_cuenta_page.dart';
 
 class PageViews extends StatefulWidget {
+  const PageViews({Key? key}) : super(key: key);
   @override
   _PageViewsState createState() => _PageViewsState();
 }
@@ -21,10 +23,9 @@ class _PageViewsState extends State<PageViews> {
   Widget build(BuildContext context) {
     return PageView(
       controller: _controller,
-      children: [
-        TodoList(), //lista de compras
-
-
+      children: const [
+        EstadoCuenta(),
+        ListaCompras(), //lista de compras
       ],
     );
   }

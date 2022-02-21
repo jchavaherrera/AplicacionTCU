@@ -1,9 +1,10 @@
 import 'dart:async';
-import 'pageViews.dart';
+import 'page_views.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +19,7 @@ class LoginPage extends StatelessWidget {
             if (isAuthenticated) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => PageViews(),
+                  builder: (context) => const PageViews(),
                 ),
               );
             }
