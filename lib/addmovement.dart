@@ -19,10 +19,16 @@ class _MyCustomFormState extends State<AddMovement> {
   // of the TextField.
   final textController = TextEditingController();
   final amountController = TextEditingController();
+  int saldo = 0;
 
   @override
   void initState() {
     super.initState();
+    widget.storage.readCounter().then((int value) {
+      setState(() {
+        saldo = value;
+      });
+    });
   }
 
   @override
@@ -37,7 +43,7 @@ class _MyCustomFormState extends State<AddMovement> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Retrieve Text Input'),
+        title: const Text('Agregar Movimiento'),
       ),
       body: Column(children: [
         const Text('Monto de la transacción'),
@@ -57,7 +63,7 @@ class _MyCustomFormState extends State<AddMovement> {
       ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          widget.storage.writeCounter(int.parse(amountController.text));
+          widget.storage.writeCounter(int.parse(amountController.text) + saldo);
           widget.storage
               .writeMovements(textController.text, amountController.text);
           Navigator.of(context).push(

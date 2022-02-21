@@ -12,12 +12,12 @@ class Storage {
 
   Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/counter.txt');
+    return File('$path/counter2.txt');
   }
 
   Future<File> get _localMovementsFile async {
     final path = await _localPath;
-    return File('$path/movimientos1.txt');
+    return File('$path/movimientos2.txt');
   }
 
   Future<int> readCounter() async {
@@ -46,7 +46,6 @@ class Storage {
 
       return movements;
     } catch (e) {
-      // If encountering an error, return 0
       return <String>[];
     }
   }
