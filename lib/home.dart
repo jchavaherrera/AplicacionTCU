@@ -83,6 +83,7 @@ class _FlutterDemoState extends State<FlutterDemo> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Estado de cuenta'),
+        backgroundColor: Colors.green[800],
       ),
       body: Column(
         children: <Widget>[
@@ -103,12 +104,23 @@ class _FlutterDemoState extends State<FlutterDemo> {
               )
             ],
           ),
-          const Text(
-            'Movimientos de la cuenta',
-            style: TextStyle(fontSize: 25),
-          ),
-          for (var item in lista)
-            Row(children: <Widget>[Expanded(child: movimientos(item))])
+          Expanded(
+              child: Container(
+            color: Colors.grey[800],
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child: const Text(
+                    'Movimientos de la cuenta',
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                ),
+                for (var item in lista)
+                  Row(children: <Widget>[Expanded(child: movimientos(item))])
+              ],
+            ),
+          ))
         ],
       ),
       floatingActionButton: FloatingActionButton(

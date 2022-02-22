@@ -9,10 +9,24 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(),
-      body: Center(
-        child: FlatButton(
-          child: Text('Ingresar'),
+        //appBar: AppBar(),
+        body: Center(
+            child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+            padding: const EdgeInsets.fromLTRB(0, 80, 0, 15),
+            child: const Text(
+              'TCU 748:\nAsistente\nfinanciero para\npersonas con\ndiscapacidad\nvisual',
+              style: TextStyle(
+                fontSize: 35,
+              ),
+            )),
+        FlatButton(
+          child: const Text(
+            'Ingresar',
+            style: TextStyle(fontSize: 35),
+          ),
           onPressed: () async {
             bool isAuthenticated =
                 await Authentication.authenticateWithBiometrics();
@@ -27,8 +41,8 @@ class LoginPage extends StatelessWidget {
             }
           },
         ),
-      ),
-    );
+      ],
+    )));
   }
 }
 

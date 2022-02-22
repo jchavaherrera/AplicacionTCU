@@ -44,16 +44,23 @@ class _MyCustomFormState extends State<AddMovement> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Agregar Movimiento'),
+        backgroundColor: Colors.green[800],
       ),
       body: Column(children: [
-        const Text('Monto de la transacción'),
+        const Text(
+          'Monto de la transacción',
+          style: TextStyle(fontSize: 25),
+        ),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: TextField(
             controller: amountController,
           ),
         ),
-        const Text('Detalle de la transacción'),
+        const Text(
+          'Detalle de la transacción',
+          style: TextStyle(fontSize: 25),
+        ),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: TextField(
