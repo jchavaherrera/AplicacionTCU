@@ -146,6 +146,7 @@ class _ListaComprasState extends State<ListaCompras> {
     });
     _textFieldController.clear();
     _textFieldController2.clear();
+    total = total + double.parse(price);
   }
 
   void _handleTodoChange(Todo todo) {
@@ -229,6 +230,7 @@ class _ListaComprasState extends State<ListaCompras> {
                               children: <Widget>[
                                 TextButton(
                                     onPressed: () {
+                                      total = total - double.parse(_todos[index].price);
                                       setState(() {
                                         _todos.remove(_todos[index]);
                                       });
