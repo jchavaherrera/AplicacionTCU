@@ -11,6 +11,7 @@ class PageViews extends StatefulWidget {
 class _PageViewsState extends State<PageViews> {
   final PageController _controller = PageController(
     initialPage: 0,
+    keepPage: true,
   );
 
   @override

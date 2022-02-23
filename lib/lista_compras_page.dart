@@ -63,9 +63,10 @@ class _ListaComprasState extends State<ListaCompras> {
 
   String result = " ";
   String product = " ";
-  int price = 0;
+  double price = 0;
   String priceStr = " ";
   String currency = " ";
+  double total = 0;
   final FlutterTts tts = FlutterTts();
 
   Future _addToCart(String item) async {
@@ -205,55 +206,69 @@ class _ListaComprasState extends State<ListaCompras> {
       appBar: AppBar(
         title: const Text('Lista de Compras'),
       ),
-      body: ListView.builder(
-          itemCount: _todos.length,
-          itemBuilder: (context, index) {
-            return Card(
-              child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                ListTile(
-                  onTap: () {
-                    _handleTodoChange(_todos[index]);
-                  },
-                  title: Text(_todos[index].name,
-                      style: _getTextStyle(_todos[index].checked)),
-                  subtitle: Text(_todos[index].price),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _todos.remove(_todos[index]);
-                          });
-                        },
-                        child: const Text('BORRAR')),
-                    const SizedBox(width: 8),
-                  ],
-                )
-              ]),
-            );
-          }),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+      body: Column(
+        children: <Widget>[
+          Expanded(
+              child: ListView.builder(
+                  itemCount: _todos.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                              onTap: () {
+                                _handleTodoChange(_todos[index]);
+                              },
+                              title: Text(_todos[index].name,
+                                  style: _getTextStyle(_todos[index].checked)),
+                              subtitle: Text(_todos[index].price + ' CRC'),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _todos.remove(_todos[index]);
+                                      });
+                                    },
+                                    child: const Text('BORRAR')),
+                                const SizedBox(width: 8),
+                              ],
+                            )
+                          ]),
+                    );
+                  })),
+                  SizedBox(height: 175, width: 300, child: Container(
+                  margin: const EdgeInsets.only(bottom: 100.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 25.0),
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.white70)),
+                  child: Text(
+                    'Total: ' + total.toString() + ' CRC',
+                    style: const TextStyle(fontSize: 25),
+                  ),
+                ),)
+        ],
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          FloatingActionButton.extended(
-            icon: const Icon(Icons.add),
+          FloatingActionButton(
+            child: const Icon(Icons.add),
             onPressed: () => _displayDialog(),
-            label: const Text('Agregar Producto'),
             heroTag: null,
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton.extended(
-            icon: const Icon(Icons.camera_alt),
-            label: const Text("Escanear Código"),
+          SizedBox(width: 50,),
+          FloatingActionButton(
+            child: const Icon(Icons.camera_alt),
             onPressed: _scanQR,
           ),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
     );
   }
 }

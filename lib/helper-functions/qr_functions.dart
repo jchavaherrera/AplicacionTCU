@@ -7,13 +7,13 @@ String getProduct (String qrData) {
   return qrData.substring(startIndex + start.length, endIndex);
 }
 
-int getPrice (String qrData) {
+double getPrice (String qrData) {
   const start = 'Precio:"';
   const end = '"';
   final startIndex = qrData.indexOf(start);
   final endIndex = qrData.indexOf(end, startIndex + start.length);
 
-  return int.parse(qrData.substring(startIndex + start.length, endIndex));
+  return double.parse(qrData.substring(startIndex + start.length, endIndex));
 }
 
 String getCurrency (String qrData) {

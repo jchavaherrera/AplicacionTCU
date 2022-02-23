@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'addmovement.dart';
 import 'storage.dart';
 
-const primaryColor = Color(0xFF151026);
-
 class EstadoCuenta extends StatelessWidget {
   const EstadoCuenta({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FlutterDemo(storage: Storage());
-    
   }
 }
 
