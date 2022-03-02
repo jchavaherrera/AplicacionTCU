@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'storage.dart';
-
+import 'page_views.dart';
 import 'estado_cuenta_page.dart';
 
 class AddMovement extends StatefulWidget {
@@ -68,7 +68,7 @@ class _MyCustomFormState extends State<AddMovement> {
               .writeMovements(textController.text, amountController.text);
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const EstadoCuenta(),
+              builder: (context) => const PageViews(),
             ),
           );
         },
