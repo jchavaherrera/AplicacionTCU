@@ -96,11 +96,15 @@ class _FlutterDemoState extends State<FlutterDemo> {
             ],
           ),
           const Text(
-            'Movimientos de la cuenta',
+            'Movimientos de la cuenta:\n',
             style: TextStyle(fontSize: 25),
           ),
-          for (var item in lista)
-            Row(children: <Widget>[Expanded(child: movimientos(item))])
+          Expanded(child: ListView.builder(
+            itemCount: lista.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Card(child:movimientos(lista[index]));
+            }),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

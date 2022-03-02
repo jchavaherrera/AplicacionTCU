@@ -66,7 +66,7 @@ class _PageViewsState extends State<PageViews> {
         currentIndex: bottomSelectedIndex,
         onTap: (index) {
           bottomTapped(index);
-      },
+        },
         items: buildBottomNavbarItems(),
       ),
     );

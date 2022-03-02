@@ -263,7 +263,7 @@ class _ListaComprasState extends State<ListaCompras> {
             onPressed: () => _displayDialog(),
             heroTag: null,
           ),
-          SizedBox(width: 50,),
+          const SizedBox(width: 50,),
           FloatingActionButton(
             child: const Icon(Icons.camera_alt),
             onPressed: _scanQR,

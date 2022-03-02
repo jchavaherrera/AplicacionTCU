@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
         Container(
             padding: const EdgeInsets.fromLTRB(0, 80, 0, 15),
             child: const Text(
-              'TCU 748:\nAsistente\nfinanciero para\npersonas con\ndiscapacidad\nvisual',
+              'TCU 748:\nAsistente\nfinanciero para\npersonas en\ncondición de\ndiscapacidad\nvisual',
               style: TextStyle(
                 fontSize: 35,
               ),
