@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:aplicacion_tcu/page_views.dart';
 import 'package:local_auth/local_auth.dart';
-import 'storage.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,8 +32,7 @@ class LoginPage extends StatelessWidget {
             bool isAuthenticated =
                 await Authentication.authenticateWithBiometrics();
 
-            if (true) {
-              //isAuthenticated) {
+            if (isAuthenticated) {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const PageViews(),

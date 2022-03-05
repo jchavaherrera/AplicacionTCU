@@ -40,7 +40,7 @@ class _FlutterDemoState extends State<FlutterDemo> {
     });
   }
 
-  void _incrementCounter() {
+  void addMovement() {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => AddMovement(storage: Storage()),
@@ -99,17 +99,18 @@ class _FlutterDemoState extends State<FlutterDemo> {
             'Movimientos de la cuenta:\n',
             style: TextStyle(fontSize: 25),
           ),
-          Expanded(child: ListView.builder(
-            itemCount: lista.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Card(child:movimientos(lista[index]));
-            }),
+          Expanded(
+            child: ListView.builder(
+                itemCount: lista.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(child: movimientos(lista[index]));
+                }),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: addMovement,
+        tooltip: 'Agregar movimiento',
         child: const Icon(Icons.add),
       ),
     );
