@@ -19,7 +19,7 @@ class Storage {
     return File('$path/movimientos.txt');
   }
 
-  Future<int> readCounter() async {
+  Future<int> readBalance() async {
     try {
       final file = await _localFile;
 
@@ -31,12 +31,12 @@ class Storage {
     }
   }
 
-  Future<File> writeCounter(int counter) async {
+  Future<File> writeBalance(int counter) async {
     final file = await _localFile;
     return file.writeAsString('$counter');
   }
 
-  Future<List<String>> readMovimientos() async {
+  Future<List<String>> readMovements() async {
     try {
       final file = await _localMovementsFile;
 

@@ -2,37 +2,37 @@ import 'package:flutter/material.dart';
 import 'addmovement.dart';
 import 'storage.dart';
 
-class EstadoCuenta extends StatelessWidget {
-  const EstadoCuenta({Key? key}) : super(key: key);
+class Summary extends StatelessWidget {
+  const Summary({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FlutterDemo(storage: Storage());
+    return SummaryWidget(storage: Storage());
   }
 }
 
-class FlutterDemo extends StatefulWidget {
-  const FlutterDemo({Key? key, required this.storage}) : super(key: key);
+class SummaryWidget extends StatefulWidget {
+  const SummaryWidget({Key? key, required this.storage}) : super(key: key);
 
   final Storage storage;
 
   @override
-  _FlutterDemoState createState() => _FlutterDemoState();
+  _SummaryWidgetState createState() => _SummaryWidgetState();
 }
 
-class _FlutterDemoState extends State<FlutterDemo> {
+class _SummaryWidgetState extends State<SummaryWidget> {
   int saldo = 0;
   late List<String> lista = [];
 
   @override
   void initState() {
     super.initState();
-    widget.storage.readCounter().then((int value) {
+    widget.storage.readBalance().then((int value) {
       setState(() {
         saldo = value;
       });
     });
-    widget.storage.readMovimientos().then((value) {
+    widget.storage.readMovements().then((value) {
       setState(() {
         lista = value;
         lista.length;
@@ -48,7 +48,7 @@ class _FlutterDemoState extends State<FlutterDemo> {
     );
   }
 
-  Widget movimientos(String movimiento) {
+  Widget movements(String movimiento) {
     List<Widget> list = <Widget>[];
     if (movimiento != '') {
       final temp = movimiento.split('\t');
@@ -103,7 +103,7 @@ class _FlutterDemoState extends State<FlutterDemo> {
             child: ListView.builder(
                 itemCount: lista.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Card(child: movimientos(lista[index]));
+                  return Card(child: movements(lista[index]));
                 }),
           ),
         ],

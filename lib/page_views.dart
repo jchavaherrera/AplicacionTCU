@@ -58,7 +58,7 @@ class _PageViewsState extends State<PageViews> {
           pageChanged(index);
         },
         children: const [
-          EstadoCuenta(),
+          Summary(),
           ListaCompras(), //lista de compras
         ],
       ),
